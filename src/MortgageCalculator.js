@@ -145,13 +145,13 @@ export default class MortgageCalculator extends React.Component {
                         <label>Principal & Interest:</label> {MortgageCalculator.moneyValue(principalAndInterest)}
                     </div>
                     <div>
-                        <label>Tax:</label> {MortgageCalculator.moneyValue(tax)}
+                        <label>Monthly Tax:</label> {MortgageCalculator.moneyValue(tax)}
                     </div>
                     <div>
-                        <label>Insurance:</label> {MortgageCalculator.moneyValue(insurance)}
+                        <label>Monthly Insurance:</label> {MortgageCalculator.moneyValue(insurance)}
                     </div>
                     <div>
-                        <label>Total:</label> {MortgageCalculator.moneyValue(total)}
+                        <label>Total Payment:</label> {MortgageCalculator.moneyValue(total)}
                     </div>
                 </div>
             </div>
