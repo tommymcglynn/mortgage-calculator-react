@@ -12,6 +12,9 @@
     "build": "babel ./src/MortgageCalculator.js --out-dir dist",
     "start": "webpack-dev-server --config ./sample-webpack.config.js --mode development"
   },
+  "files": [
+    "dist"
+  ],
   "author": "Tommy McGlynn",
   "license": "MIT",
   "devDependencies": {
