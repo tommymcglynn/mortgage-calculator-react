@@ -2,6 +2,8 @@
 
 A simple mortgage calculator as a React component.
 
+![Sample Mortgage Calculator](docs/assets/sample_calculator.png)
+
 ## Sample App
 
 You can try out the mortgage calculator. Run the following command to start the sample app.
