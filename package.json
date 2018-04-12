@@ -9,7 +9,7 @@
   "main": "dist/src/MortgageCalculator.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel ./src/MortgageCalculator.js --out-dir dist",
+    "prepublish": "babel ./src/MortgageCalculator.js --out-dir dist",
     "start": "webpack-dev-server --config ./sample-webpack.config.js --mode development"
   },
   "files": [
