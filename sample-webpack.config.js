@@ -1,6 +1,6 @@
 module.exports = {
     entry: [
-        './src/MortgageCalculator.js'
+        './src/index.js'
     ],
     module: {
         rules: [
@@ -19,8 +19,11 @@ module.exports = {
         extensions: ['*', '.js', '.jsx']
     },
     output: {
-        path: __dirname + '/dist',
+        path: __dirname + '/dist-sample',
         publicPath: '/',
-        filename: 'MortgageCalculator.js'
+        filename: 'bundle.js'
+    },
+    devServer: {
+        contentBase: './dist-sample'
     }
 };
