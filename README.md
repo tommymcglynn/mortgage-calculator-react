@@ -1,6 +1,6 @@
 # Mortgage Calculator React
 
-A simple mortgage calculator as a React component.
+A simple mortgage calculator as a React component. Using [mortgage-js](https://github.com/tommymcglynn/mortgage-js) for payment calculations.
 
 ![Sample Mortgage Calculator](docs/assets/sample_calculator.png)
 
