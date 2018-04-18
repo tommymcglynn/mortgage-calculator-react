@@ -1,5 +1,6 @@
 var React = require('react');
 var mortgageJs = require("mortgage-js");
+import DefaultStyles from './DefaultStyle.css';
 
 const DefaultPrice = 500000;
 const DefaultDownPayment = 100000;
@@ -101,9 +102,10 @@ export default class MortgageCalculator extends React.Component {
     render() {
 
         const {loanAmount, principalAndInterest, tax, insurance, total} = this.state.mortgage;
+        const styles = this.props.styles || DefaultStyles;
 
         return (
-            <div>
+            <div className={styles.container}>
                 <form>
                     <div>
                         <label>
@@ -127,7 +129,7 @@ export default class MortgageCalculator extends React.Component {
                         <label>
                             Loan Term
                         </label>
-                        <select name="termMonths" onInput={this.onTermMonthsChange} defaultValue="360">
+                        <select className="custom-select" name="termMonths" onInput={this.onTermMonthsChange} defaultValue="360">
                             <option value="360">30 years</option>
                             <option value="240">20 years</option>
                             <option value="180">15 years</option>
@@ -137,21 +139,46 @@ export default class MortgageCalculator extends React.Component {
                     </div>
                 </form>
                 <hr/>
-                <div>
-                    <div>
-                        <label>Loan Amount:</label> {MortgageCalculator.moneyValue(loanAmount)}
+                <div className={styles.results}>
+                    <div className={styles.resultRow}>
+                        <div className={styles.resultLabel}>
+                            Loan Amount:
+                        </div>
+                        <div className={styles.resultValue}>
+                            {MortgageCalculator.moneyValue(loanAmount)}
+                        </div>
                     </div>
-                    <div>
-                        <label>Principal & Interest:</label> {MortgageCalculator.moneyValue(principalAndInterest)}
+                    <div className={styles.resultRow}>
+                        <div className={styles.resultLabel}>
+                            Principal & Interest:
+                        </div>
+                        <div className={styles.resultValue}>
+                            {MortgageCalculator.moneyValue(principalAndInterest)}
+                        </div>
                     </div>
-                    <div>
-                        <label>Monthly Tax:</label> {MortgageCalculator.moneyValue(tax)}
+                    <div className={styles.resultRow}>
+                        <div className={styles.resultLabel}>
+                            Monthly Tax:
+                        </div>
+                        <div className={styles.resultValue}>
+                            {MortgageCalculator.moneyValue(tax)}
+                        </div>
                     </div>
-                    <div>
-                        <label>Monthly Insurance:</label> {MortgageCalculator.moneyValue(insurance)}
+                    <div className={styles.resultRow}>
+                        <div className={styles.resultLabel}>
+                            Monthly Insurance:
+                        </div>
+                        <div className={styles.resultValue}>
+                            {MortgageCalculator.moneyValue(insurance)}
+                        </div>
                     </div>
-                    <div>
-                        <label>Total Payment:</label> {MortgageCalculator.moneyValue(total)}
+                    <div className={styles.resultRow}>
+                        <div className={styles.resultLabel}>
+                            Total Payment:
+                        </div>
+                        <div className={styles.resultValue}>
+                            {MortgageCalculator.moneyValue(total)}
+                        </div>
                     </div>
                 </div>
             </div>

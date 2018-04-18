@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MortgageCalculator from "./MortgageCalculator";
-import "./index.css"
 
 const root = (
-    <div className="mortgageCalculator">
+    <div style={{width: '400px', margin: '0 auto'}}>
         <MortgageCalculator />
     </div>
 );
