@@ -1,11 +1,9 @@
 # Mortgage Calculator React
-
 A simple mortgage calculator as a React component. Using [mortgage-js](https://github.com/tommymcglynn/mortgage-js) for payment calculations.
 
 ![Sample Mortgage Calculator](docs/assets/sample_calculator.png)
 
 ## Sample App
-
 You can try out the mortgage calculator. Run the following commands to start the sample app.
 
     // Install dependencies
@@ -17,8 +15,11 @@ Then open http://localhost:8080 in your browser. If port 8080 is already in-use,
 
 
 ## Usage in Your App
+Install the calculator as an npm module.
 
-You can include the mortgage calculator in your app as a React component.
+    npm install mortgage-calculator-react
+
+Then include the mortgage calculator in your app and use it as a React component.
 
     import MortgageCalculator from "mortgage-calculator-react";
     
@@ -29,3 +30,8 @@ You can include the mortgage calculator in your app as a React component.
     );
 
 
+## CSS Styling
+The calculator uses a default style "DefaultStyle.css". You could create a copy of this file and modify it to achieve any aesthetic for the mortgage calculator.
+
+    import customStyle from "./CustomStyle.css";
+    <MortgageCalculator styles={customStyle} />

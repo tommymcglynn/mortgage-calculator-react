@@ -21,6 +21,9 @@ module.exports = {
     output: {
         path: __dirname + '/dist',
         publicPath: '/',
-        filename: 'MortgageCalculator.js'
+        filename: 'MortgageCalculator.js',
+        library: 'mortgage-calculator-react',
+        libraryTarget: 'umd',
+        umdNamedDefine: true
     }
 };
