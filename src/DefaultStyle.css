@@ -12,15 +12,25 @@
 }
 
 :local(input) {
+    float: right;
     width: 100%;
     border-radius: 4px;
     font-size: 16px;
     margin: 0 0 1em 0;
-    padding: 7px;
+    padding: 7px 7px 7px 28px;
     border: 1px solid lightslategrey;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+}
+
+:local(.inputIcon) {
+    position: absolute;
+    padding: 9px 0 9px 0;
+    width: 32px;
+    text-align: center;
+    color: lightslategrey;
+    pointer-events: none;
 }
 
 :local(select) {

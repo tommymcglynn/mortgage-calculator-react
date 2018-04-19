@@ -111,19 +111,22 @@ export default class MortgageCalculator extends React.Component {
                         <label>
                             Home Price
                         </label>
-                        <input type="text" name="price" defaultValue="500000" onInput={this.onPriceChange}/>
+                        <div className={styles.inputIcon}>$</div>
+                        <input type="number" name="price" defaultValue="500000" onInput={this.onPriceChange}/>
                     </div>
                     <div>
                         <label>
                             Down Payment
                         </label>
-                        <input type="text" name="downPayment" defaultValue="100000" onInput={this.onDownPaymentChange}/>
+                        <div className={styles.inputIcon}>$</div>
+                        <input type="number" name="downPayment" defaultValue="100000" onInput={this.onDownPaymentChange}/>
                     </div>
                     <div>
                         <label>
                             Interest Rate
                         </label>
-                        <input type="text" name="interestRate" defaultValue="4.5" onInput={this.onInterestRateChange}/>
+                        <div className={styles.inputIcon}>%</div>
+                        <input type="number" name="interestRate" defaultValue="4.5" step="0.01" onInput={this.onInterestRateChange}/>
                     </div>
                     <div>
                         <label>
