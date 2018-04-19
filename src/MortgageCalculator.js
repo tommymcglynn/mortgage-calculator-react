@@ -21,6 +21,12 @@ const penniesFormatter = new Intl.NumberFormat('en-US', {
     maximumFractionDigits: 2,
 });
 
+const percentFormatter = new Intl.NumberFormat('en-US', {
+    style: 'percent',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+});
+
 export default class MortgageCalculator extends React.Component {
 
     mortgageCalculator = mortgageJs.createMortgageCalculator();
@@ -34,11 +40,14 @@ export default class MortgageCalculator extends React.Component {
         this.mortgageCalculator.months = props.months || DefaultTermMonths;
 
         this.state = {
+            totalPrice: this.mortgageCalculator.totalPrice,
+            downPayment: this.mortgageCalculator.downPayment,
             mortgage: this.mortgageCalculator.calculatePayment()
         };
 
         this.onPriceChange = this.onPriceChange.bind(this);
         this.onDownPaymentChange = this.onDownPaymentChange.bind(this);
+        this.onDownPaymentPercentChange = this.onDownPaymentPercentChange.bind(this);
         this.onInterestRateChange = this.onInterestRateChange.bind(this);
         this.onTermMonthsChange = this.onTermMonthsChange.bind(this);
     }
@@ -63,11 +72,25 @@ export default class MortgageCalculator extends React.Component {
         return value;
     }
 
+    static percentValue(amount, withSymbol) {
+        if (amount === null || amount === '') return '';
+        let value = percentFormatter.format(amount);
+        if (withSymbol === false) {
+            return value.substring(0, value.length - 1);
+        }
+        return value;
+    }
+
     onPriceChange(e) {
         let value = e.target.value;
         if (isNaN(value)) return;
         this.mortgageCalculator.totalPrice = value;
+        let downPaymentPercent = this.state.downPayment / this.state.totalPrice;
+        let downPayment = downPaymentPercent * value;
+        this.mortgageCalculator.downPayment = downPayment;
         this.setState({
+            totalPrice: value,
+            downPayment: downPayment,
             mortgage: this.mortgageCalculator.calculatePayment()
         });
     }
@@ -77,6 +100,18 @@ export default class MortgageCalculator extends React.Component {
         if (isNaN(value)) return;
         this.mortgageCalculator.downPayment = value;
         this.setState({
+            downPayment: value,
+            mortgage: this.mortgageCalculator.calculatePayment()
+        });
+    }
+
+    onDownPaymentPercentChange(e) {
+        let value = e.target.value;
+        if (isNaN(value)) return;
+        let downPayment = Math.round((value / 100) * this.state.totalPrice);
+        this.mortgageCalculator.downPayment = downPayment;
+        this.setState({
+            downPayment: downPayment,
             mortgage: this.mortgageCalculator.calculatePayment()
         });
     }
@@ -101,6 +136,7 @@ export default class MortgageCalculator extends React.Component {
 
     render() {
 
+        const {totalPrice, downPayment} = this.state;
         const {loanAmount, principalAndInterest, tax, insurance, total} = this.state.mortgage;
         const styles = this.props.styles || DefaultStyles;
 
@@ -112,15 +148,23 @@ export default class MortgageCalculator extends React.Component {
                             Home Price
                         </label>
                         <div className={styles.inputIcon}>$</div>
-                        <input type="number" name="price" defaultValue="500000" onInput={this.onPriceChange}/>
+                        <input type="number" name="price" value={Math.round(totalPrice)} onChange={this.onPriceChange}/>
                     </div>
+                    <div className="fieldSeparator">&nbsp;</div>
+
                     <div>
                         <label>
                             Down Payment
                         </label>
                         <div className={styles.inputIcon}>$</div>
-                        <input type="number" name="downPayment" defaultValue="100000" onInput={this.onDownPaymentChange}/>
+                        <input type="number" name="downPayment" value={Math.round(downPayment)} onChange={this.onDownPaymentChange}/>
                     </div>
+                    <div>
+                        <div className={styles.inputIcon}>%</div>
+                        <input type="number" name="downPaymentPercent" value={MortgageCalculator.percentValue(downPayment / totalPrice, false)} onChange={this.onDownPaymentPercentChange}/>
+                    </div>
+                    <div className="fieldSeparator">&nbsp;</div>
+
                     <div>
                         <label>
                             Interest Rate
@@ -128,6 +172,8 @@ export default class MortgageCalculator extends React.Component {
                         <div className={styles.inputIcon}>%</div>
                         <input type="number" name="interestRate" defaultValue="4.5" step="0.01" onInput={this.onInterestRateChange}/>
                     </div>
+                    <div className="fieldSeparator">&nbsp;</div>
+
                     <div>
                         <label>
                             Loan Term

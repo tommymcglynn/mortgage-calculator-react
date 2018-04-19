@@ -12,11 +12,9 @@
 }
 
 :local(input) {
-    float: right;
     width: 100%;
     border-radius: 4px;
     font-size: 16px;
-    margin: 0 0 1em 0;
     padding: 7px 7px 7px 28px;
     border: 1px solid lightslategrey;
     box-sizing: border-box;
@@ -31,6 +29,10 @@
     text-align: center;
     color: lightslategrey;
     pointer-events: none;
+}
+
+:local(.fieldSeparator) {
+    margin: 1em 0;
 }
 
 :local(select) {
