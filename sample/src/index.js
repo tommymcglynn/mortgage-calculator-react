@@ -9,7 +9,7 @@ import redStyles from "./RedStyle.css";
  */
 
 const root = (
-    <div style={{width: '400px', margin: '0 auto', fontFamily: 'Helvetica, Arial, sans-serif'}}>
+    <div style={{maxWidth: '400px', margin: '0 auto', fontFamily: 'Helvetica, Arial, sans-serif'}}>
         <div style={{textAlign: 'center'}}>
             <h1>Mortgage Calculator</h1>
         </div>
