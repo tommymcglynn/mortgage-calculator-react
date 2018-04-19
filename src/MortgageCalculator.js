@@ -63,6 +63,10 @@ export default class MortgageCalculator extends React.Component {
         return value / 100;
     }
 
+    static moneyToValue(money) {
+        return money.replace(/\D/g, "");
+    }
+
     static moneyValue(amount, showPennies = false, withSymbol = true) {
         if (amount === null || amount === '') return '';
         let value = showPennies ? penniesFormatter.format(amount) : moneyFormatter.format(amount);
@@ -82,7 +86,7 @@ export default class MortgageCalculator extends React.Component {
     }
 
     onPriceChange(e) {
-        let value = e.target.value;
+        let value = MortgageCalculator.moneyToValue(e.target.value);
         if (isNaN(value)) return;
         this.mortgageCalculator.totalPrice = value;
         let downPaymentPercent = this.state.downPayment / this.state.totalPrice;
@@ -96,7 +100,7 @@ export default class MortgageCalculator extends React.Component {
     }
 
     onDownPaymentChange(e) {
-        let value = e.target.value;
+        let value = MortgageCalculator.moneyToValue(e.target.value);
         if (isNaN(value)) return;
         this.mortgageCalculator.downPayment = value;
         this.setState({
@@ -148,7 +152,7 @@ export default class MortgageCalculator extends React.Component {
                             Home Price
                         </label>
                         <div className={styles.inputIcon}>$</div>
-                        <input type="number" name="price" value={Math.round(totalPrice)} onChange={this.onPriceChange}/>
+                        <input type="text" name="price" value={MortgageCalculator.moneyValue(totalPrice, false, false)} onChange={this.onPriceChange}/>
                     </div>
                     <div className="fieldSeparator">&nbsp;</div>
 
@@ -157,7 +161,7 @@ export default class MortgageCalculator extends React.Component {
                             Down Payment
                         </label>
                         <div className={styles.inputIcon}>$</div>
-                        <input type="number" name="downPayment" value={Math.round(downPayment)} onChange={this.onDownPaymentChange}/>
+                        <input type="text" name="downPayment" value={MortgageCalculator.moneyValue(downPayment, false, false)} onChange={this.onDownPaymentChange}/>
                     </div>
                     <div>
                         <div className={styles.inputIcon}>%</div>
