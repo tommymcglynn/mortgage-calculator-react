@@ -24,7 +24,7 @@
 
 :local(.inputIcon) {
     position: absolute;
-    padding: 9px 0 9px 0;
+    padding-top: 11px;
     width: 32px;
     text-align: center;
     color: lightslategrey;
