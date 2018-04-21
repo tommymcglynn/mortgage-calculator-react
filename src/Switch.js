@@ -3,10 +3,6 @@ import Styles from './Switch.css';
 
 
 export default class Switch extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const styles = Styles;
         const {active} = this.props;

@@ -1,8 +1,10 @@
 import Switch from "./Switch";
+import Util from "./Util"
 
 var React = require('react');
 var mortgageJs = require("mortgage-js");
 import DefaultStyles from './DefaultStyle.css';
+import PaymentSchedule from "./PaymentSchedule";
 
 const DefaultPrice = 500000;
 const DefaultDownPayment = 100000;
@@ -11,26 +13,6 @@ const DefaultTermMonths = 360;
 const DefaultTaxRate = 0.0125;
 const DefaultInsuranceRate = 0.0014;
 const DefaultMortgageInsuranceRate = 0.011;
-
-const moneyFormatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-});
-
-const penniesFormatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-});
-
-const percentFormatter = new Intl.NumberFormat('en-US', {
-    style: 'percent',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-});
 
 export default class MortgageCalculator extends React.Component {
 
@@ -66,61 +48,36 @@ export default class MortgageCalculator extends React.Component {
         this.onMortgageInsuranceEnabledChange = this.onMortgageInsuranceEnabledChange.bind(this);
     }
 
-    static percentToValue(percent) {
-        let value = parseFloat(percent);
-        if (isNaN(value)) {
-            return NaN;
-        }
-        if (value < 0) {
-            return 0;
-        }
-        return value / 100;
-    }
-
-    static moneyToValue(money) {
-        return money.replace(/\D/g, "");
-    }
-
-    static moneyValue(amount, showPennies = false, withSymbol = true) {
-        if (amount === null || amount === '') return '';
-        let value = showPennies ? penniesFormatter.format(amount) : moneyFormatter.format(amount);
-        if (withSymbol === false) {
-            return value.substring(1);
-        }
-        return value;
-    }
-
-    static percentValue(amount, withSymbol) {
-        if (amount === null || amount === '') return '';
-        let value = percentFormatter.format(amount);
-        if (withSymbol === false) {
-            return value.substring(0, value.length - 1);
-        }
-        return value;
+    onMortgageChange(mortgage) {
+        //this.props.onMortgageChange(mortgage);
     }
 
     onPriceChange(e) {
-        let value = MortgageCalculator.moneyToValue(e.target.value);
+        let value = Util.moneyToValue(e.target.value);
         if (isNaN(value)) return;
         this.mortgageCalculator.totalPrice = value;
         let downPaymentPercent = this.state.downPayment / this.state.totalPrice;
         let downPayment = downPaymentPercent * value;
         this.mortgageCalculator.downPayment = downPayment;
+        let mortgage = this.mortgageCalculator.calculatePayment();
         this.setState({
             totalPrice: value,
             downPayment: downPayment,
-            mortgage: this.mortgageCalculator.calculatePayment()
+            mortgage: mortgage
         });
+        this.onMortgageChange(mortgage);
     }
 
     onDownPaymentChange(e) {
-        let value = MortgageCalculator.moneyToValue(e.target.value);
+        let value = Util.moneyToValue(e.target.value);
         if (isNaN(value)) return;
         this.mortgageCalculator.downPayment = value;
+        let mortgage = this.mortgageCalculator.calculatePayment();
         this.setState({
             downPayment: value,
-            mortgage: this.mortgageCalculator.calculatePayment()
+            mortgage: mortgage
         });
+        this.onMortgageChange(mortgage);
     }
 
     onDownPaymentPercentChange(e) {
@@ -128,63 +85,77 @@ export default class MortgageCalculator extends React.Component {
         if (isNaN(value)) return;
         let downPayment = Math.round((value / 100) * this.state.totalPrice);
         this.mortgageCalculator.downPayment = downPayment;
+        let mortgage = this.mortgageCalculator.calculatePayment();
         this.setState({
             downPayment: downPayment,
-            mortgage: this.mortgageCalculator.calculatePayment()
+            mortgage: mortgage
         });
+        this.onMortgageChange(mortgage);
     }
 
     onInterestRateChange(e) {
-        let value = MortgageCalculator.percentToValue(e.target.value);
+        let value = Util.percentToValue(e.target.value);
         if (isNaN(value)) return;
         this.mortgageCalculator.interestRate = value;
+        let mortgage = this.mortgageCalculator.calculatePayment();
         this.setState({
-            mortgage: this.mortgageCalculator.calculatePayment()
+            mortgage: mortgage
         });
+        this.onMortgageChange(mortgage);
     }
 
     onTermMonthsChange(e) {
         let value = e.target.value;
         if (isNaN(value)) return;
         this.mortgageCalculator.months = value;
+        let mortgage = this.mortgageCalculator.calculatePayment();
         this.setState({
-            mortgage: this.mortgageCalculator.calculatePayment()
+            mortgage: mortgage
         });
+        this.onMortgageChange(mortgage);
     }
 
     onTaxRateChange(e) {
-        let value = MortgageCalculator.percentToValue(e.target.value);
+        let value = Util.percentToValue(e.target.value);
         if (isNaN(value)) return;
         this.mortgageCalculator.taxRate = value;
+        let mortgage = this.mortgageCalculator.calculatePayment();
         this.setState({
-            mortgage: this.mortgageCalculator.calculatePayment()
+            mortgage: mortgage
         });
+        this.onMortgageChange(mortgage);
     }
 
     onInsuranceRateChange(e) {
-        let value = MortgageCalculator.percentToValue(e.target.value);
+        let value = Util.percentToValue(e.target.value);
         if (isNaN(value)) return;
         this.mortgageCalculator.insuranceRate = value;
+        let mortgage = this.mortgageCalculator.calculatePayment();
         this.setState({
-            mortgage: this.mortgageCalculator.calculatePayment()
+            mortgage: mortgage
         });
+        this.onMortgageChange(mortgage);
     }
 
     onMortgageInsuranceRateChange(e) {
-        let value = MortgageCalculator.percentToValue(e.target.value);
+        let value = Util.percentToValue(e.target.value);
         if (isNaN(value)) return;
         this.mortgageCalculator.mortgageInsuranceRate = value;
+        let mortgage = this.mortgageCalculator.calculatePayment();
         this.setState({
-            mortgage: this.mortgageCalculator.calculatePayment()
+            mortgage: mortgage
         });
+        this.onMortgageChange(mortgage);
     }
 
     onMortgageInsuranceEnabledChange(e) {
         this.mortgageCalculator.mortgageInsuranceEnabled = e;
+        let mortgage = this.mortgageCalculator.calculatePayment();
         this.setState({
             mortgageInsuranceEnabled: this.mortgageCalculator.mortgageInsuranceEnabled,
-            mortgage: this.mortgageCalculator.calculatePayment()
+            mortgage: mortgage
         });
+        this.onMortgageChange(mortgage);
     }
 
     render() {
@@ -202,7 +173,7 @@ export default class MortgageCalculator extends React.Component {
                             Home Price
                         </label>
                         <div className={styles.inputIcon}>$</div>
-                        <input type="text" name="price" value={MortgageCalculator.moneyValue(totalPrice, false, false)} onChange={this.onPriceChange}/>
+                        <input type="text" name="price" value={Util.moneyValue(totalPrice, false, false)} onChange={this.onPriceChange}/>
                     </div>
                     <div className="fieldSeparator">&nbsp;</div>
 
@@ -211,11 +182,11 @@ export default class MortgageCalculator extends React.Component {
                             Down Payment
                         </label>
                         <div className={styles.inputIcon}>$</div>
-                        <input type="text" name="downPayment" value={MortgageCalculator.moneyValue(downPayment, false, false)} onChange={this.onDownPaymentChange}/>
+                        <input type="text" name="downPayment" value={Util.moneyValue(downPayment, false, false)} onChange={this.onDownPaymentChange}/>
                     </div>
                     <div>
                         <div className={styles.inputIcon}>%</div>
-                        <input type="number" name="downPaymentPercent" value={MortgageCalculator.percentValue(downPayment / totalPrice, false)} onChange={this.onDownPaymentPercentChange}/>
+                        <input type="number" name="downPaymentPercent" value={Util.percentValue(downPayment / totalPrice, false)} onChange={this.onDownPaymentPercentChange}/>
                     </div>
                     <div className="fieldSeparator">&nbsp;</div>
 
@@ -224,7 +195,7 @@ export default class MortgageCalculator extends React.Component {
                             Interest Rate
                         </label>
                         <div className={styles.inputIcon}>%</div>
-                        <input type="number" name="interestRate" defaultValue={MortgageCalculator.percentValue(interestRate, false)} step="0.01" onInput={this.onInterestRateChange}/>
+                        <input type="number" name="interestRate" defaultValue={Util.percentValue(interestRate, false)} step="0.01" onInput={this.onInterestRateChange}/>
                     </div>
                     <div className="fieldSeparator">&nbsp;</div>
 
@@ -242,7 +213,9 @@ export default class MortgageCalculator extends React.Component {
                     </div>
                     <div className="fieldSeparator">&nbsp;</div>
 
-                    <button type="button" onClick={() => this.setState({showAdvanced: !showAdvanced})}>{showAdvanced ? "Hide" : "Show"} Advanced</button>
+                    <div className={styles.advancedButton}>
+                        <button type="button" onClick={() => this.setState({showAdvanced: !showAdvanced})}>{showAdvanced ? "Hide" : "Show"} Advanced</button>
+                    </div>
                     {showAdvanced ? (
                         <div className={styles.advanced}>
                             <div>
@@ -250,7 +223,7 @@ export default class MortgageCalculator extends React.Component {
                                     Tax Rate
                                 </label>
                                 <div className={styles.inputIcon}>%</div>
-                                <input type="number" name="taxRate" defaultValue={MortgageCalculator.percentValue(taxRate, false)} step="0.01" onInput={this.onTaxRateChange}/>
+                                <input type="number" name="taxRate" defaultValue={Util.percentValue(taxRate, false)} step="0.01" onInput={this.onTaxRateChange}/>
                             </div>
                             <div className="fieldSeparator">&nbsp;</div>
 
@@ -259,7 +232,7 @@ export default class MortgageCalculator extends React.Component {
                                     Insurance Rate
                                 </label>
                                 <div className={styles.inputIcon}>%</div>
-                                <input type="number" name="insuranceRate" defaultValue={MortgageCalculator.percentValue(insuranceRate, false)} step="0.01" onInput={this.onInsuranceRateChange}/>
+                                <input type="number" name="insuranceRate" defaultValue={Util.percentValue(insuranceRate, false)} step="0.01" onInput={this.onInsuranceRateChange}/>
                             </div>
                             <div className="fieldSeparator">&nbsp;</div>
 
@@ -268,7 +241,7 @@ export default class MortgageCalculator extends React.Component {
                                     Mortgage Insurance Rate
                                 </label>
                                 <div className={styles.inputIcon}>%</div>
-                                <input type="number" name="mortgageInsuranceRate" defaultValue={MortgageCalculator.percentValue(mortgageInsuranceRate, false)} step="0.01" onInput={this.onMortgageInsuranceRateChange}/>
+                                <input type="number" name="mortgageInsuranceRate" defaultValue={Util.percentValue(mortgageInsuranceRate, false)} step="0.01" onInput={this.onMortgageInsuranceRateChange}/>
                             </div>
                             <div className="fieldSeparator">&nbsp;</div>
 
@@ -288,7 +261,7 @@ export default class MortgageCalculator extends React.Component {
                             Loan Amount:
                         </div>
                         <div className={styles.resultValue}>
-                            {MortgageCalculator.moneyValue(loanAmount)}
+                            {Util.moneyValue(loanAmount)}
                         </div>
                     </div>
                     <div className={styles.resultRow}>
@@ -296,7 +269,7 @@ export default class MortgageCalculator extends React.Component {
                             Principal & Interest:
                         </div>
                         <div className={styles.resultValue}>
-                            {MortgageCalculator.moneyValue(principalAndInterest)}
+                            {Util.moneyValue(principalAndInterest)}
                         </div>
                     </div>
                     <div className={styles.resultRow}>
@@ -304,7 +277,7 @@ export default class MortgageCalculator extends React.Component {
                             Monthly Tax:
                         </div>
                         <div className={styles.resultValue}>
-                            {MortgageCalculator.moneyValue(tax)}
+                            {Util.moneyValue(tax)}
                         </div>
                     </div>
                     <div className={styles.resultRow}>
@@ -312,7 +285,7 @@ export default class MortgageCalculator extends React.Component {
                             Monthly Insurance:
                         </div>
                         <div className={styles.resultValue}>
-                            {MortgageCalculator.moneyValue(insurance)}
+                            {Util.moneyValue(insurance)}
                         </div>
                     </div>
                     {mortgageInsurance > 0 ? (
@@ -321,7 +294,7 @@ export default class MortgageCalculator extends React.Component {
                                 Monthly PMI:
                             </div>
                             <div className={styles.resultValue}>
-                                {MortgageCalculator.moneyValue(mortgageInsurance)}
+                                {Util.moneyValue(mortgageInsurance)}
                             </div>
                         </div>
                     ): null}
@@ -330,9 +303,14 @@ export default class MortgageCalculator extends React.Component {
                             Total Payment:
                         </div>
                         <div className={styles.resultValue}>
-                            {MortgageCalculator.moneyValue(total)}
+                            {Util.moneyValue(total)}
                         </div>
                     </div>
+                </div>
+
+                <div className={styles.schedule}>
+                    <h3>Payment Schedule</h3>
+                    <PaymentSchedule mortgage={this.state.mortgage}/>
                 </div>
             </div>
         );

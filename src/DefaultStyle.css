@@ -4,6 +4,7 @@
     --primary-two: #FFE74C;
     --primary-three: #69E062;
     --secondary-one: #2A2D34;
+    --secondary-one-light: #9E9FA2;
     --secondary-two: #1B4965;
 }
 
@@ -100,4 +101,42 @@
 
 :local(.advanced) {
     padding-top: 1em;
+}
+
+:local(.advancedButton) {
+    text-align: center;
+}
+
+:local(.schedule h3) {
+    text-align: center;
+    color: var(--secondary-one)
+}
+
+:local(.paymentList) {
+    display: table;
+    padding: 0;
+    width: 100%;
+    font-size: 14px;
+    color: var(--secondary-one-light);
+    text-align: center;
+}
+
+:local(.paymentHeader) {
+    color: var(--secondary-one);
+}
+:local(.paymentHeader div) {
+    border-bottom: 1px solid var(--secondary-one-light);
+}
+
+:local(.paymentRow) {
+    display: table-row;
+}
+
+:local(.paymentRowYear) {
+    color: var(--secondary-one);
+}
+
+:local(.paymentRow div) {
+    display: table-cell;
+    padding: .2em 0;
 }
