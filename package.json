@@ -32,7 +32,7 @@
     "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
-    "mortgage-js": "0.0.2",
+    "mortgage-js": "0.0.4",
     "react": "^16.3.1",
     "react-dom": "^16.3.1"
   }

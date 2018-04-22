@@ -13,6 +13,7 @@ const DefaultTermMonths = 360;
 const DefaultTaxRate = 0.0125;
 const DefaultInsuranceRate = 0.0014;
 const DefaultMortgageInsuranceRate = 0.011;
+const DefaultDownPaymentPercent = 0.2;
 
 export default class MortgageCalculator extends React.Component {
 
@@ -29,11 +30,13 @@ export default class MortgageCalculator extends React.Component {
         this.mortgageCalculator.insuranceRate = props.insuranceRate || DefaultInsuranceRate;
         this.mortgageCalculator.mortgageInsuranceRate = props.mortgageInsuranceRate || DefaultMortgageInsuranceRate;
         this.mortgageCalculator.mortgageInsuranceEnabled = true;
+        this.mortgageCalculator.additionalPrincipal = 0;
 
         this.state = {
             totalPrice: this.mortgageCalculator.totalPrice,
             downPayment: this.mortgageCalculator.downPayment,
             mortgageInsuranceEnabled: this.mortgageCalculator.mortgageInsuranceEnabled,
+            additionalPrincipal: 0,
             mortgage: this.mortgageCalculator.calculatePayment()
         };
 
@@ -42,6 +45,7 @@ export default class MortgageCalculator extends React.Component {
         this.onDownPaymentPercentChange = this.onDownPaymentPercentChange.bind(this);
         this.onInterestRateChange = this.onInterestRateChange.bind(this);
         this.onTermMonthsChange = this.onTermMonthsChange.bind(this);
+        this.onAdditionalPrincipalChange = this.onAdditionalPrincipalChange.bind(this);
         this.onTaxRateChange = this.onTaxRateChange.bind(this);
         this.onInsuranceRateChange = this.onInsuranceRateChange.bind(this);
         this.onMortgageInsuranceRateChange = this.onMortgageInsuranceRateChange.bind(this);
@@ -49,14 +53,21 @@ export default class MortgageCalculator extends React.Component {
     }
 
     onMortgageChange(mortgage) {
-        //this.props.onMortgageChange(mortgage);
+
     }
 
     onPriceChange(e) {
-        let value = Util.moneyToValue(e.target.value);
+        let value = e.target.value;
+        if (value.length === 0) {
+            this.setState({
+                totalPrice: value
+            });
+            return
+        }
+        value = Util.moneyToValue(value);
         if (isNaN(value)) return;
         this.mortgageCalculator.totalPrice = value;
-        let downPaymentPercent = this.state.downPayment / this.state.totalPrice;
+        let downPaymentPercent = (this.state.totalPrice > 0) ? this.state.downPayment / this.state.totalPrice : DefaultDownPaymentPercent;
         let downPayment = downPaymentPercent * value;
         this.mortgageCalculator.downPayment = downPayment;
         let mortgage = this.mortgageCalculator.calculatePayment();
@@ -69,7 +80,14 @@ export default class MortgageCalculator extends React.Component {
     }
 
     onDownPaymentChange(e) {
-        let value = Util.moneyToValue(e.target.value);
+        let value = e.target.value;
+        if (value.length === 0) {
+            this.setState({
+                downPayment: value
+            });
+            return
+        }
+        value = Util.moneyToValue(value);
         if (isNaN(value)) return;
         this.mortgageCalculator.downPayment = value;
         let mortgage = this.mortgageCalculator.calculatePayment();
@@ -82,6 +100,12 @@ export default class MortgageCalculator extends React.Component {
 
     onDownPaymentPercentChange(e) {
         let value = e.target.value;
+        if (value.length === 0) {
+            this.setState({
+                downPayment: value
+            });
+            return
+        }
         if (isNaN(value)) return;
         let downPayment = Math.round((value / 100) * this.state.totalPrice);
         this.mortgageCalculator.downPayment = downPayment;
@@ -110,6 +134,17 @@ export default class MortgageCalculator extends React.Component {
         this.mortgageCalculator.months = value;
         let mortgage = this.mortgageCalculator.calculatePayment();
         this.setState({
+            mortgage: mortgage
+        });
+        this.onMortgageChange(mortgage);
+    }
+
+    onAdditionalPrincipalChange(e) {
+        let value = Util.moneyToValue(e.target.value);
+        this.mortgageCalculator.additionalPrincipalPayment = !isNaN(value) ? value : 0;
+        let mortgage = this.mortgageCalculator.calculatePayment();
+        this.setState({
+            additionalPrincipal: value,
             mortgage: mortgage
         });
         this.onMortgageChange(mortgage);
@@ -160,10 +195,23 @@ export default class MortgageCalculator extends React.Component {
 
     render() {
 
-        const {totalPrice, downPayment, showAdvanced} = this.state;
+        const {totalPrice, downPayment, showAdvanced, additionalPrincipal} = this.state;
         const {loanAmount, principalAndInterest, tax, insurance, mortgageInsurance, total} = this.state.mortgage;
         const {interestRate, taxRate, insuranceRate, mortgageInsuranceRate, mortgageInsuranceEnabled} = this.mortgageCalculator;
         const styles = this.props.styles || DefaultStyles;
+        let paymentCount = this.state.mortgage.paymentSchedule.length;
+        let years = Math.floor(paymentCount / 12);
+        let remainingMonths = paymentCount % 12;
+        let yearsLabel = years === 1 ? 'year' : 'years';
+        let monthsLabel = remainingMonths === 1 ? 'month' : 'months';
+        let separatorLabel = years > 0 && remainingMonths > 0 ? ' and ' : '';
+        let payoffMessage = '';
+        if (years > 0) payoffMessage += `${years} ${yearsLabel}`;
+        payoffMessage += separatorLabel;
+        if (remainingMonths > 0) payoffMessage += `${remainingMonths} ${monthsLabel}`;
+        if (payoffMessage.length > 0) payoffMessage = `Fully paid in ${payoffMessage}`;
+
+        const downPaymentPercent = downPayment.length === 0 ? '' : (totalPrice > 0 && downPayment > 0) ? downPayment / totalPrice : DefaultDownPaymentPercent;
 
         return (
             <div className={styles.container}>
@@ -186,7 +234,7 @@ export default class MortgageCalculator extends React.Component {
                     </div>
                     <div>
                         <div className={styles.inputIcon}>%</div>
-                        <input type="number" name="downPaymentPercent" value={Util.percentValue(downPayment / totalPrice, false)} onChange={this.onDownPaymentPercentChange}/>
+                        <input type="number" name="downPaymentPercent" value={Util.percentValue(downPaymentPercent, false)} onChange={this.onDownPaymentPercentChange}/>
                     </div>
                     <div className="fieldSeparator">&nbsp;</div>
 
@@ -210,6 +258,16 @@ export default class MortgageCalculator extends React.Component {
                             <option value="120">10 years</option>
                             <option value="60">5 years</option>
                         </select>
+                    </div>
+                    <div className="fieldSeparator">&nbsp;</div>
+
+                    <div>
+                        <label>
+                            Additional Principal Payment
+                        </label>
+                        <div className={styles.inputIcon}>$</div>
+                        <input type="text" name="additionalPrincipal" value={Util.moneyValue(additionalPrincipal, false, false)} onChange={this.onAdditionalPrincipalChange}/>
+                        <div>{payoffMessage}</div>
                     </div>
                     <div className="fieldSeparator">&nbsp;</div>
 

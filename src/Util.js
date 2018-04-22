@@ -31,7 +31,9 @@ export default class Util {
     }
 
     static moneyToValue(money) {
-        return money.replace(/\D/g, "");
+        if (money === undefined) return '';
+        let value = parseInt(money.replace(/\D/g, ""));
+        return !isNaN(value) ? value : '';
     }
 
     static moneyValue(amount, showPennies = false, withSymbol = true) {
