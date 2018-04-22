@@ -35,3 +35,9 @@ The calculator uses a default style "DefaultStyle.css". You could create a copy 
 
     import customStyle from "./CustomStyle.css";
     <MortgageCalculator styles={customStyle} />
+
+## Embed in Web Page
+You can embed the mortgage calculator into any web page. Simply insert the following HTML.
+
+    <div id="mortgage-calculator-react"></div>
+    <script src="https://www.fastforma.com/mortgage-calculator-react.js"></script>
