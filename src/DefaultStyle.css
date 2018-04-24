@@ -15,34 +15,40 @@
     border-radius: 4px;
 }
 
+:local(.inputWrapper) {
+    padding: 0 0 .7em 0;
+}
+
 :local(label) {
     display: block;
     color: #777777;
-    margin-bottom: .1em;
+}
+
+:local(.inputIcon) {
+    position: absolute;
+    width: 2em;
+    padding: .7em 0 0 0;
+    margin: 2px 0 0 0;
+    text-align: center;
+    line-height: normal;
+    color: var(--secondary-one-light);
 }
 
 :local(input) {
     width: 100%;
+    text-indent: 1em;
     border-radius: 4px;
     font-size: 16px;
-    padding: 7px 7px 7px 28px;
+    padding: .7em;
+    margin: 0 0 .2em 0;
     border: 1px solid var(--secondary-one);
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
 
-:local(.inputIcon) {
-    position: absolute;
-    padding-top: 11px;
-    width: 32px;
-    text-align: center;
-    color: var(--secondary-one);
-    pointer-events: none;
-}
-
-:local(.fieldSeparator) {
-    margin: 1em 0;
+:local(.inputSection) {
+    padding: .1em 0 .1em 0;
 }
 
 :local(select) {
@@ -52,16 +58,12 @@
     border: 1px solid var(--secondary-one);
 }
 
-:local(hr) {
-    margin: 1em 0 1em 0;
-    border: 1px dotted var(--secondary-two);
-}
-
 :local(.results) {
     display: table;
     width: 100%;
     color: white;
     border-radius: 4px;
+    margin: 1em 0 0 0 ;
 }
 
 :local(.resultRow) {
