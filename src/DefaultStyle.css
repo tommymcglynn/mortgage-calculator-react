@@ -10,13 +10,15 @@
 
 :local(.container) {
     font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 16px;
     padding: 1em;
     background-color: #f1f1f1;
     border-radius: 4px;
+    border: 1px solid var(--secondary-one-light);
 }
 
 :local(.inputWrapper) {
-    padding: 0 0 .7em 0;
+    padding: 0 0 1em 0;
 }
 
 :local(label) {
