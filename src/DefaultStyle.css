@@ -49,6 +49,10 @@
     -moz-box-sizing: border-box;
 }
 
+:local(input:focus) {
+    border: 1px solid var(--primary-one);
+}
+
 :local(.inputSection) {
     padding: .1em 0 .1em 0;
 }
