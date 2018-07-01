@@ -3,6 +3,7 @@ import Util from "./Util"
 
 var React = require('react');
 var mortgageJs = require("mortgage-js");
+var pjson = require('../package.json');
 import DefaultStyles from './DefaultStyle.css';
 import PaymentSchedule from "./PaymentSchedule";
 import InputWrapper from "./InputWrapper";
@@ -331,6 +332,10 @@ export default class MortgageCalculator extends React.Component {
                 <div className={styles.schedule}>
                     <h3>Payment Schedule</h3>
                     <PaymentSchedule mortgage={this.state.mortgage}/>
+                </div>
+
+                <div className={styles.versionInfo}>
+                    <a href="https://github.com/tommymcglynn/mortgage-calculator-react">mortgage-calculator-react {pjson.version}</a>
                 </div>
             </div>
         );

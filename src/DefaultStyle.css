@@ -148,3 +148,13 @@
     display: table-cell;
     padding: .2em 0;
 }
+
+:local(.versionInfo) {
+    text-align: center;
+    font-size: 9pt;
+}
+
+:local(.versionInfo a) {
+    color: var(--primary-one);
+    text-decoration: none;
+}
