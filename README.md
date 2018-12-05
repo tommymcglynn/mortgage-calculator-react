@@ -43,7 +43,7 @@ You can embed the mortgage calculator into any web page. Simply insert the follo
     <script src="https://www.fastforma.com/mortgage-calculator-react.js"></script>
     
 ## Additional props
-You can ovverride default props.
+You can override default props.
 
     
-    <MortgageCalculator price={125000} downPayment={10000} interestRate={0.065} months={5} taxRate={2} insuranceRate={1} mortgageInsuranceEnabled={false} additionalPrincipal={12500} />
+    <MortgageCalculator price={125000} downPayment={10000} interestRate={0.065} months={5} taxRate={0.5} insuranceRate={0.5} mortgageInsuranceEnabled={false}  />
