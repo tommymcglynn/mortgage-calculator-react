@@ -29,6 +29,14 @@ Then include the mortgage calculator in your app and use it as a React component
         </div>
     );
 
+You can also override default props.
+
+    
+    <MortgageCalculator price={125000} downPayment={10000} interestRate={0.065} months={120} additionalPrincipalPayment={100} taxRate={0.01} insuranceRate={0.01} mortgageInsuranceEnabled={false}  />
+    
+You can also show a full payment schedule.
+
+    <MortgageCalculator showPaymentSchedule />
 
 ## CSS Styling
 The calculator uses a default style "DefaultStyle.css". You could create a copy of this file and modify it to achieve any aesthetic for the mortgage calculator.
@@ -42,8 +50,3 @@ You can embed the mortgage calculator into any web page. Simply insert the follo
     <div id="mortgage-calculator-react"></div>
     <script src="https://www.fastforma.com/mortgage-calculator-react.js"></script>
     
-## Additional props
-You can override default props.
-
-    
-    <MortgageCalculator price={125000} downPayment={10000} interestRate={0.065} months={5} taxRate={0.5} insuranceRate={0.5} mortgageInsuranceEnabled={false}  />

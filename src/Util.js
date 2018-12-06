@@ -53,4 +53,15 @@ export default class Util {
         }
         return value;
     }
+
+    static numberValueOrDefault(value, minValue, defaultValue) {
+        if (value == null || isNaN(value) || value < minValue) return defaultValue;
+        return value;
+    }
+
+    static numberValueInSetOrDefault(value, possibleValues, defaultValue) {
+        if (!Array.isArray(possibleValues)) throw "possibleValues must be an array.";
+        if (value == null || isNaN(value) || !possibleValues.includes(value)) return defaultValue;
+        return value;
+    }
 }

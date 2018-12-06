@@ -8,7 +8,7 @@
   },
   "main": "dist/MortgageCalculator.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "prepublish": "webpack --config ./webpack.config.js --mode development",
     "buildembed": "webpack --config ./embed-webpack.config.js --mode production",
     "start": "webpack-dev-server --config ./sample-webpack.config.js --mode development"
@@ -19,6 +19,7 @@
   "author": "Tommy McGlynn",
   "license": "MIT",
   "devDependencies": {
+    "jest": "^23.6.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
