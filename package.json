@@ -9,7 +9,7 @@
   "main": "dist/MortgageCalculator.js",
   "scripts": {
     "test": "jest",
-    "prepublish": "webpack --config ./webpack.config.js --mode development",
+    "prepare": "webpack --config ./webpack.config.js --mode development",
     "buildembed": "webpack --config ./embed-webpack.config.js --mode production",
     "start": "webpack-dev-server --config ./sample-webpack.config.js --mode development"
   },
