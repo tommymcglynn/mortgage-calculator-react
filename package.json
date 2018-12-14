@@ -1,6 +1,6 @@
 {
   "name": "mortgage-calculator-react",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Simple mortgage calculator as a React Component.",
   "repository": {
     "type": "git",
