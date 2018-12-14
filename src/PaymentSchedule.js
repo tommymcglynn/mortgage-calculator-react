@@ -10,7 +10,7 @@ export default class PaymentSchedule extends React.Component {
         const styles = this.props.styles || DefaultStyles;
         const showPennies = false;
         const paymentRows = paymentSchedule.map(function(payment) {
-                let rowClass = styles.paymentRow;
+                var rowClass = styles.paymentRow;
                 const isYearlyPayment = payment.count % 12 === 0;
                 if (isYearlyPayment) {
                     rowClass += " "+styles.paymentRowYear;
