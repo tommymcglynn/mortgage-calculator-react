@@ -17,6 +17,9 @@ const DefaultTaxRate = 0.0125;
 const DefaultInsuranceRate = 0.0014;
 const DefaultMortgageInsuranceRate = 0.011;
 const DefaultDownPaymentPercent = 0.2;
+const DefaultAdditionalPrincipalPayment = 0;
+
+const ValidTermMonths = [60, 120, 180, 240, 360];
 
 export default class MortgageCalculator extends React.Component {
 
@@ -25,15 +28,15 @@ export default class MortgageCalculator extends React.Component {
     constructor(props) {
         super(props);
 
-        this.mortgageCalculator.totalPrice = props.price || DefaultPrice;
-        this.mortgageCalculator.downPayment = props.downPayment || DefaultDownPayment;
-        this.mortgageCalculator.interestRate = props.interestRate || DefaultInterestRate;
-        this.mortgageCalculator.months = props.months || DefaultTermMonths;
-        this.mortgageCalculator.taxRate = props.taxRate || DefaultTaxRate;
-        this.mortgageCalculator.insuranceRate = props.insuranceRate || DefaultInsuranceRate;
-        this.mortgageCalculator.mortgageInsuranceRate = props.mortgageInsuranceRate || DefaultMortgageInsuranceRate;
-        this.mortgageCalculator.mortgageInsuranceEnabled = true;
-        this.mortgageCalculator.additionalPrincipal = 0;
+        this.mortgageCalculator.totalPrice = Util.numberValueOrDefault(props.price, 0, DefaultPrice);
+        this.mortgageCalculator.downPayment = Util.numberValueOrDefault(props.downPayment, 0, DefaultDownPayment);
+        this.mortgageCalculator.interestRate = Util.numberValueOrDefault(props.interestRate, 0, DefaultInterestRate);
+        this.mortgageCalculator.months = Util.numberValueInSetOrDefault(props.months, ValidTermMonths, DefaultTermMonths);
+        this.mortgageCalculator.taxRate = Util.numberValueOrDefault(props.taxRate, 0, DefaultTaxRate);
+        this.mortgageCalculator.insuranceRate = Util.numberValueOrDefault(props.insuranceRate, 0, DefaultInsuranceRate);
+        this.mortgageCalculator.mortgageInsuranceRate = Util.numberValueOrDefault(props.mortgageInsuranceRate, 0, DefaultMortgageInsuranceRate);
+        this.mortgageCalculator.mortgageInsuranceEnabled = props.mortgageInsuranceEnabled !== false;
+        this.mortgageCalculator.additionalPrincipal = Util.numberValueOrDefault(props.additionalPrincipalPayment, 0, DefaultAdditionalPrincipalPayment);
 
         this.state = {
             totalPrice: this.mortgageCalculator.totalPrice,
@@ -200,7 +203,7 @@ export default class MortgageCalculator extends React.Component {
 
         const {totalPrice, downPayment, showAdvanced, additionalPrincipal} = this.state;
         const {loanAmount, principalAndInterest, tax, insurance, mortgageInsurance, total} = this.state.mortgage;
-        const {interestRate, taxRate, insuranceRate, mortgageInsuranceRate, mortgageInsuranceEnabled} = this.mortgageCalculator;
+        const {interestRate, taxRate, insuranceRate, mortgageInsuranceRate, mortgageInsuranceEnabled, months} = this.mortgageCalculator;
         const styles = this.props.styles || DefaultStyles;
         let paymentCount = this.state.mortgage.paymentSchedule.length;
         let years = Math.floor(paymentCount / 12);
@@ -235,7 +238,7 @@ export default class MortgageCalculator extends React.Component {
 
 
                     <InputWrapper styles={styles} label="Loan Term">
-                        <select className="custom-select" name="termMonths" onInput={this.onTermMonthsChange} defaultValue="360">
+                        <select className="custom-select" name="termMonths" onInput={this.onTermMonthsChange} defaultValue={months}>
                             <option value="360">30 years</option>
                             <option value="240">20 years</option>
                             <option value="180">15 years</option>
@@ -329,10 +332,12 @@ export default class MortgageCalculator extends React.Component {
                     </div>
                 </div>
 
-                <div className={styles.schedule}>
-                    <h3>Payment Schedule</h3>
-                    <PaymentSchedule mortgage={this.state.mortgage}/>
-                </div>
+                {this.props.showPaymentSchedule ? (
+                    <div className={styles.schedule}>
+                        <h3>Payment Schedule</h3>
+                        <PaymentSchedule mortgage={this.state.mortgage}/>
+                    </div>
+                ) : null}
 
                 <div className={styles.versionInfo}>
                     <a href="https://github.com/tommymcglynn/mortgage-calculator-react">mortgage-calculator-react {pjson.version}</a>

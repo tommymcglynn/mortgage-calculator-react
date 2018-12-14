@@ -1,6 +1,6 @@
 {
   "name": "mortgage-calculator-react",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Simple mortgage calculator as a React Component.",
   "repository": {
     "type": "git",
@@ -8,8 +8,8 @@
   },
   "main": "dist/MortgageCalculator.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "webpack --config ./webpack.config.js --mode development",
+    "test": "jest",
+    "prepare": "webpack --config ./webpack.config.js --mode development",
     "buildembed": "webpack --config ./embed-webpack.config.js --mode production",
     "start": "webpack-dev-server --config ./sample-webpack.config.js --mode development"
   },
@@ -20,20 +20,22 @@
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.4",
-    "babel-preset-env": "^1.6.1",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.11",
+    "jest": "^23.6.0",
+    "macaddress": "^0.2.9",
     "style-loader": "^0.20.3",
-    "webpack": "^4.5.0",
-    "webpack-cli": "^2.0.14",
-    "webpack-dev-server": "^3.1.1"
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
-    "mortgage-js": "0.1.1",
-    "react": "^16.3.1",
-    "react-dom": "^16.3.1"
+    "mortgage-js": "^0.1.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
   }
 }
