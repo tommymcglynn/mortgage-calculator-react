@@ -6,7 +6,7 @@ export default class Switch extends React.Component {
     render() {
         const styles = Styles;
         const {active} = this.props;
-        let wrapperClass = styles.switchWrapper;
+        var wrapperClass = styles.switchWrapper;
         if (active) {
             wrapperClass += " "+styles.switchWrapperActive;
         }
