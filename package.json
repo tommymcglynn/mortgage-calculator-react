@@ -29,13 +29,13 @@
     "jest": "^23.6.0",
     "macaddress": "^0.2.9",
     "style-loader": "^0.20.3",
-    "webpack": "^4.27.1",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.11"
+    "webpack": "^4.34.0",
+    "webpack-cli": "^3.3.4",
+    "webpack-dev-server": "^3.7.1"
   },
   "dependencies": {
     "mortgage-js": "^0.1.2",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   }
 }

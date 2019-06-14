@@ -60,3 +60,4 @@ typings/
 .idea
 *.iml
 .DS_Store
+dist
