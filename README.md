@@ -32,7 +32,7 @@ Then include the mortgage calculator in your app and use it as a React component
 You can also override default props.
 
     
-    <MortgageCalculator price={125000} downPayment={10000} interestRate={0.065} months={120} additionalPrincipalPayment={100} taxRate={0.01} insuranceRate={0.01} mortgageInsuranceEnabled={false}  />
+    <MortgageCalculator price={125000} downPayment={10000} interestRate={0.065} months={120} additionalPrincipalPayment={100} taxRate={0.01} insuranceRate={0.01} mortgageInsuranceEnabled={false} currency="₦" />
     
 You can also show a full payment schedule.
 
