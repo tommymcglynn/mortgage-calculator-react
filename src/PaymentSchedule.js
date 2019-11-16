@@ -4,8 +4,13 @@ var React = require('react');
 import DefaultStyles from './DefaultStyle.css';
 
 export default class PaymentSchedule extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         const mortgage = this.props.mortgage;
+        const currency = this.props.currency;
         const {paymentSchedule} = mortgage;
         const styles = this.props.styles || DefaultStyles;
         const showPennies = false;
@@ -18,10 +23,10 @@ export default class PaymentSchedule extends React.Component {
                 return (
                     <li key={payment.count} className={rowClass}>
                         <div>{!isYearlyPayment ? payment.count : "Year "+(payment.count / 12)}</div>
-                        <div>{Util.moneyValue(payment.principalPayment, showPennies)}</div>
-                        <div>{Util.moneyValue(payment.interestPayment, showPennies)}</div>
-                        <div>{Util.moneyValue(payment.totalInterest, showPennies)}</div>
-                        <div>{Util.moneyValue(payment.balance, showPennies)}</div>
+                        <div>{Util.moneyValue(payment.principalPayment, showPennies, true, currency)}</div>
+                        <div>{Util.moneyValue(payment.interestPayment, showPennies, true, currency)}</div>
+                        <div>{Util.moneyValue(payment.totalInterest, showPennies, true, currency)}</div>
+                        <div>{Util.moneyValue(payment.balance, showPennies, true, currency)}</div>
                     </li>
                 );
             }
