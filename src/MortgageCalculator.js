@@ -18,6 +18,7 @@ const DefaultInsuranceRate = 0.0014;
 const DefaultMortgageInsuranceRate = 0.011;
 const DefaultDownPaymentPercent = 0.2;
 const DefaultAdditionalPrincipalPayment = 0;
+const DefaultCurrency = '$';
 
 const ValidTermMonths = [60, 120, 180, 240, 360];
 
@@ -37,6 +38,7 @@ export default class MortgageCalculator extends React.Component {
         this.mortgageCalculator.mortgageInsuranceRate = Util.numberValueOrDefault(props.mortgageInsuranceRate, 0, DefaultMortgageInsuranceRate);
         this.mortgageCalculator.mortgageInsuranceEnabled = props.mortgageInsuranceEnabled !== false;
         this.mortgageCalculator.additionalPrincipal = Util.numberValueOrDefault(props.additionalPrincipalPayment, 0, DefaultAdditionalPrincipalPayment);
+        this.mortgageCalculator.currency = props.currency || DefaultCurrency;
 
         this.state = {
             totalPrice: this.mortgageCalculator.totalPrice,
@@ -223,11 +225,11 @@ export default class MortgageCalculator extends React.Component {
             <div className={styles.container}>
                 <form className={styles.inputForm}>
                     <InputWrapper styles={styles} label="Home Price">
-                        <IconInput styles={styles} icon="$" type="text" name="price" value={Util.moneyValue(totalPrice, false, false)} onChange={this.onPriceChange}/>
+                        <IconInput styles={styles} icon={this.mortgageCalculator.currency} type="text" name="price" value={Util.moneyValue(totalPrice, false, false)} onChange={this.onPriceChange}/>
                     </InputWrapper>
 
                     <InputWrapper styles={styles} label="Down Payment">
-                        <IconInput styles={styles} icon="$" type="text" name="downPayment" value={Util.moneyValue(downPayment, false, false)} onChange={this.onDownPaymentChange}/>
+                        <IconInput styles={styles} icon={this.mortgageCalculator.currency} type="text" name="downPayment" value={Util.moneyValue(downPayment, false, false)} onChange={this.onDownPaymentChange}/>
                         <IconInput styles={styles} icon="%" type="number" name="downPaymentPercent" value={Util.percentValue(downPaymentPercent, false)} onChange={this.onDownPaymentPercentChange}/>
                     </InputWrapper>
 
@@ -249,7 +251,7 @@ export default class MortgageCalculator extends React.Component {
 
 
                     <InputWrapper styles={styles} label="Additional Principal Payment" subtext={(<div>{payoffMessage}</div>)}>
-                        <IconInput styles={styles} icon="$" type="text" name="additionalPrincipal" value={Util.moneyValue(additionalPrincipal, false, false)} onChange={this.onAdditionalPrincipalChange}/>
+                        <IconInput styles={styles} icon={this.mortgageCalculator.currency} type="text" name="additionalPrincipal" value={Util.moneyValue(additionalPrincipal, false, false)} onChange={this.onAdditionalPrincipalChange}/>
                     </InputWrapper>
 
 
@@ -285,7 +287,7 @@ export default class MortgageCalculator extends React.Component {
                             Loan Amount:
                         </div>
                         <div className={styles.resultValue}>
-                            {Util.moneyValue(loanAmount)}
+                            {Util.moneyValue(loanAmount, false, true, this.mortgageCalculator.currency)}
                         </div>
                     </div>
                     <div className={styles.resultRow}>
@@ -293,7 +295,7 @@ export default class MortgageCalculator extends React.Component {
                             Principal & Interest:
                         </div>
                         <div className={styles.resultValue}>
-                            {Util.moneyValue(principalAndInterest)}
+                            {Util.moneyValue(principalAndInterest, false, true, this.mortgageCalculator.currency)}
                         </div>
                     </div>
                     <div className={styles.resultRow}>
@@ -301,7 +303,7 @@ export default class MortgageCalculator extends React.Component {
                             Monthly Tax:
                         </div>
                         <div className={styles.resultValue}>
-                            {Util.moneyValue(tax)}
+                            {Util.moneyValue(tax, false, true, this.mortgageCalculator.currency)}
                         </div>
                     </div>
                     <div className={styles.resultRow}>
@@ -309,7 +311,7 @@ export default class MortgageCalculator extends React.Component {
                             Monthly Insurance:
                         </div>
                         <div className={styles.resultValue}>
-                            {Util.moneyValue(insurance)}
+                            {Util.moneyValue(insurance, false, true, this.mortgageCalculator.currency)}
                         </div>
                     </div>
                     {mortgageInsurance > 0 ? (
@@ -318,7 +320,7 @@ export default class MortgageCalculator extends React.Component {
                                 Monthly PMI:
                             </div>
                             <div className={styles.resultValue}>
-                                {Util.moneyValue(mortgageInsurance)}
+                                {Util.moneyValue(mortgageInsurance, false, true, this.mortgageCalculator.currency)}
                             </div>
                         </div>
                     ): null}
@@ -327,7 +329,7 @@ export default class MortgageCalculator extends React.Component {
                             Total Payment:
                         </div>
                         <div className={styles.resultValue}>
-                            {Util.moneyValue(total)}
+                            {Util.moneyValue(total, false, true, this.mortgageCalculator.currency)}
                         </div>
                     </div>
                 </div>
@@ -335,7 +337,7 @@ export default class MortgageCalculator extends React.Component {
                 {this.props.showPaymentSchedule ? (
                     <div className={styles.schedule}>
                         <h3>Payment Schedule</h3>
-                        <PaymentSchedule mortgage={this.state.mortgage}/>
+                        <PaymentSchedule mortgage={this.state.mortgage} currency={this.mortgageCalculator.currency} />
                     </div>
                 ) : null}
 
