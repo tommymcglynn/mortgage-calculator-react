@@ -1,4 +1,4 @@
-var React = require('react');
+import React from 'react';
 import Styles from './Switch.css';
 
 
@@ -6,7 +6,7 @@ export default class Switch extends React.Component {
     render() {
         const styles = Styles;
         const {active} = this.props;
-        var wrapperClass = styles.switchWrapper;
+        let wrapperClass = styles.switchWrapper;
         if (active) {
             wrapperClass += " "+styles.switchWrapperActive;
         }

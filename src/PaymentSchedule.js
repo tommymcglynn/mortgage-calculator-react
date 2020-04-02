@@ -1,6 +1,5 @@
 import Util from "./Util";
-
-var React = require('react');
+import React from 'react';
 import DefaultStyles from './DefaultStyle.css';
 
 export default class PaymentSchedule extends React.Component {

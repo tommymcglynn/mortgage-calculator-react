@@ -1,6 +1,6 @@
 {
   "name": "mortgage-calculator-react",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Simple mortgage calculator as a React Component.",
   "repository": {
     "type": "git",
@@ -29,13 +29,13 @@
     "jest": "^23.6.0",
     "macaddress": "^0.2.9",
     "style-loader": "^0.20.3",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
     "mortgage-js": "^0.1.2",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   }
 }
